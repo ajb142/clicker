@@ -1,10 +1,30 @@
 <div class="container-fluid vh-100 d-flex flex-column">
   <!-- Header -->
-  <header class="bg-dark text-white py-3 mb-4">
+  <header class="bg-dark text-white py-3 mb-0">
     <div class="container-lg">
       <h1 class="mb-0">{{ title }}</h1>
     </div>
   </header>
+
+  <!-- Actions Bar (underneath banner) -->
+  <div class="bg-light border-bottom py-2 mb-4">
+    <div class="container-lg">
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <button class="btn btn-sm btn-outline-success" (click)="openAddTopicModal()" title="Add new topic">
+          <i class="bi bi-plus-circle"></i> Add Topic
+        </button>
+        <button class="btn btn-sm btn-outline-info" (click)="exportData()" title="Export data as CSV">
+          <i class="bi bi-download"></i> Export
+        </button>
+        <button class="btn btn-sm btn-outline-warning" (click)="clearData()" title="Clear all data">
+          <i class="bi bi-trash"></i> Clear
+        </button>
+        <button class="btn btn-sm btn-outline-danger" (click)="resetTopics()" title="Reset to default topics">
+          <i class="bi bi-arrow-counterclockwise"></i> Reset
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Main Content -->
   <main class="flex-grow-1 overflow-auto">
@@ -29,20 +49,6 @@
             <br>
             <small>{{ topic.count }}</small>
           </button>
-        </div>
-      </section>
-
-      <!-- Add New Topic Section -->
-      <section class="mb-4">
-        <h2 class="h5 mb-3">Add New Topic</h2>
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter topic name"
-            [(ngModel)]="newTopicName"
-            (keyup.enter)="addTopic()">
-          <button class="btn btn-primary" type="button" (click)="addTopic()">Add</button>
         </div>
       </section>
 
@@ -74,24 +80,36 @@
           </div>
         </div>
       </section>
-
-      <!-- Control Buttons Section -->
-      <section class="mb-4">
-        <h2 class="h5 mb-3">Actions</h2>
-        <div class="d-grid gap-2 d-sm-flex">
-          <button class="btn btn-info" (click)="exportData()">
-            <i class="bi bi-download"></i> Export Data
-          </button>
-          <button class="btn btn-warning" (click)="clearData()">
-            <i class="bi bi-trash"></i> Clear Data
-          </button>
-          <button class="btn btn-danger" (click)="resetTopics()">
-            <i class="bi bi-arrow-counterclockwise"></i> Reset Topics
-          </button>
-        </div>
-      </section>
     </div>
   </main>
+
+  <!-- Add Topic Modal -->
+  <div class="modal" [class.show]="showAddTopicModal" [style.display]="showAddTopicModal ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Topic</h5>
+          <button type="button" class="btn-close" (click)="closeAddTopicModal()"></button>
+        </div>
+        <div class="modal-body">
+          <input
+            #topicNameInput
+            type="text"
+            class="form-control"
+            placeholder="Enter topic name"
+            [(ngModel)]="newTopicName"
+            (keyup.enter)="addTopic()">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddTopicModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="addTopic()" [disabled]="!newTopicName.trim()">Add Topic</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop -->
+  <div class="modal-backdrop fade" [class.show]="showAddTopicModal" *ngIf="showAddTopicModal"></div>
 
   <!-- Footer -->
   <footer class="bg-light border-top text-center py-3 mt-auto">

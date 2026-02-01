@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
@@ -44,12 +44,15 @@ const MAX_EVENTS = 2000;
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  @ViewChild('topicNameInput') topicNameInput!: ElementRef;
+
   title = 'Event Counter';
   topics: Topic[] = [];
   timeline: TimelineEvent[] = [];
   newTopicName = '';
   capacityReachedAlert = false;
   colorIndex = 0;
+  showAddTopicModal = false;
 
   pieChartData: ChartConfiguration<'pie'>['data'] = {
     labels: [],
@@ -162,7 +165,22 @@ export class AppComponent implements OnInit {
       this.newTopicName = '';
       this.saveToStorage();
       this.updateCharts();
+      this.closeAddTopicModal();
     }
+  }
+
+  openAddTopicModal(): void {
+    this.showAddTopicModal = true;
+    this.newTopicName = '';
+    // Focus the input after the modal is rendered
+    setTimeout(() => {
+      this.topicNameInput?.nativeElement?.focus();
+    }, 100);
+  }
+
+  closeAddTopicModal(): void {
+    this.showAddTopicModal = false;
+    this.newTopicName = '';
   }
 
   incrementTopic(topicId: string): void {
