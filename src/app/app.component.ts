@@ -46,7 +46,7 @@ const MAX_EVENTS = 2000;
 export class AppComponent implements OnInit {
   @ViewChild('topicNameInput') topicNameInput!: ElementRef;
 
-  title = 'Event Counter';
+  title = 'Clicker';
   topics: Topic[] = [];
   timeline: TimelineEvent[] = [];
   newTopicName = '';
