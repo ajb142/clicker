@@ -2,6 +2,16 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.19.
 
+## GitHub Pages Deployment
+
+This application is automatically deployed to GitHub Pages via GitHub Actions. The built files are located in the `docs` folder and served from GitHub Pages.
+
+- **Live URL**: https://ajb142.github.io/clicker/
+- **Deployment**: Automatic on push to `main` branch
+- **Build Output**: `/docs` folder
+
+To manually trigger a deployment, use the workflow dispatch option in the GitHub Actions tab.
+
 ## Development server
 
 To start a local development server, run:
