@@ -70,6 +70,7 @@ export class AppComponent implements OnInit {
     plugins: {
       legend: {
         position: 'bottom',
+        reverse: true
       }
     }
   };
@@ -272,9 +273,10 @@ export class AppComponent implements OnInit {
   }
 
   private updatePieChart(): void {
-    this.pieChartData.labels = this.topics.map(t => t.name);
-    this.pieChartData.datasets[0].data = this.topics.map(t => t.count);
-    this.pieChartData.datasets[0].backgroundColor = this.topics.map(t => t.color);
+    const reversedTopics = [...this.topics].reverse();
+    this.pieChartData.labels = reversedTopics.map(t => t.name);
+    this.pieChartData.datasets[0].data = reversedTopics.map(t => t.count);
+    this.pieChartData.datasets[0].backgroundColor = reversedTopics.map(t => t.color);
     this.pieChartData = { ...this.pieChartData };
   }
 
