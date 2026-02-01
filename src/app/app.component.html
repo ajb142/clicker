@@ -1,0 +1,103 @@
+<div class="container-fluid vh-100 d-flex flex-column">
+  <!-- Header -->
+  <header class="bg-dark text-white py-3 mb-4">
+    <div class="container-lg">
+      <h1 class="mb-0">{{ title }}</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow-1 overflow-auto">
+    <div class="container-lg">
+      <!-- Alert for Capacity Reached -->
+      <div *ngIf="capacityReachedAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Capacity Reached!</strong> Maximum 2000 events stored. Clear data or reset topics to continue logging.
+        <button type="button" class="btn-close" (click)="dismissAlert()"></button>
+      </div>
+
+      <!-- Topic Buttons Section -->
+      <section class="mb-4">
+        <h2 class="h5 mb-3">Topics</h2>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <button
+            *ngFor="let topic of topics"
+            class="btn btn-lg flex-grow-1"
+            [style.backgroundColor]="topic.color"
+            [style.color]="getContrastColor(topic.color)"
+            (click)="incrementTopic(topic.id)"
+            style="min-width: 100px; font-weight: 600;">
+            {{ topic.name }}
+            <br>
+            <small>{{ topic.count }}</small>
+          </button>
+        </div>
+      </section>
+
+      <!-- Add New Topic Section -->
+      <section class="mb-4">
+        <h2 class="h5 mb-3">Add New Topic</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter topic name"
+            [(ngModel)]="newTopicName"
+            (keyup.enter)="addTopic()">
+          <button class="btn btn-primary" type="button" (click)="addTopic()">Add</button>
+        </div>
+      </section>
+
+      <!-- Charts Section -->
+      <section class="mb-4">
+        <h2 class="h5 mb-3">Pie Chart (Totals)</h2>
+        <div class="card">
+          <div class="card-body">
+            <canvas
+              baseChart
+              type="pie"
+              [data]="pieChartData"
+              [options]="pieChartOptions">
+            </canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-4">
+        <h2 class="h5 mb-3">Timeline (Cumulative)</h2>
+        <div class="card">
+          <div class="card-body">
+            <canvas
+              baseChart
+              type="bar"
+              [data]="lineChartData"
+              [options]="lineChartOptions">
+            </canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Control Buttons Section -->
+      <section class="mb-4">
+        <h2 class="h5 mb-3">Actions</h2>
+        <div class="d-grid gap-2 d-sm-flex">
+          <button class="btn btn-info" (click)="exportData()">
+            <i class="bi bi-download"></i> Export Data
+          </button>
+          <button class="btn btn-warning" (click)="clearData()">
+            <i class="bi bi-trash"></i> Clear Data
+          </button>
+          <button class="btn btn-danger" (click)="resetTopics()">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset Topics
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light border-top text-center py-3 mt-auto">
+    <small class="text-muted">Events logged: {{ timeline.length }} / {{ 2000 }}</small>
+  </footer>
+</div>
+
+<router-outlet />
