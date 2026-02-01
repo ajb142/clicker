@@ -190,10 +190,11 @@ export class AppComponent implements OnInit {
   }
 
   clearData(): void {
-    if (confirm('Are you sure you want to clear all counts? Timeline events will be preserved.')) {
+    if (confirm('Are you sure you want to clear all counts and timeline events?')) {
       this.topics.forEach(topic => {
         topic.count = 0;
       });
+      this.timeline = [];
       this.saveToStorage();
       this.updateCharts();
     }
