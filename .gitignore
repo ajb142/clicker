@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# Keep docs folder for GitHub Pages
+!/docs
+
 # Node
 /node_modules
 npm-debug.log
