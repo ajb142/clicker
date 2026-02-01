@@ -23,6 +23,7 @@
   border-radius: 0.5rem;
   transition: transform 0.2s, box-shadow 0.2s;
   min-height: 80px;
+  touch-action: manipulation;
 
   &:hover {
     transform: translateY(-2px);
