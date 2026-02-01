@@ -8,6 +8,8 @@
 
 # Keep docs folder for GitHub Pages
 !/docs
+# But ignore the browser subfolder (build artifact that gets moved to docs root)
+/docs/browser
 
 # Node
 /node_modules
