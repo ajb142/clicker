@@ -26,6 +26,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
+        # Using --legacy-peer-deps to bypass peer dependency conflicts with Angular packages
         run: npm install --legacy-peer-deps
       
       - name: Build Angular app
@@ -33,9 +34,9 @@ jobs:
       
       - name: Prepare docs folder for GitHub Pages
         run: |
-          # Move files from docs/browser to docs root
-          mv docs/browser/* docs/
-          rmdir docs/browser
+          # Move all files (including hidden) from docs/browser to docs root
+          cp -r docs/browser/. docs/
+          rm -rf docs/browser
           # Create .nojekyll to prevent Jekyll processing
           touch docs/.nojekyll
       
