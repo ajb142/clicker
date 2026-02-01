@@ -18,14 +18,13 @@
       <!-- Topic Buttons Section -->
       <section class="mb-4">
         <h2 class="h5 mb-3">Topics</h2>
-        <div class="d-flex flex-wrap gap-2 mb-3">
+        <div class="topics-grid">
           <button
             *ngFor="let topic of topics"
-            class="btn btn-lg flex-grow-1"
+            class="btn btn-lg topic-btn"
             [style.backgroundColor]="topic.color"
             [style.color]="getContrastColor(topic.color)"
-            (click)="incrementTopic(topic.id)"
-            style="min-width: 100px; font-weight: 600;">
+            (click)="incrementTopic(topic.id)">
             {{ topic.name }}
             <br>
             <small>{{ topic.count }}</small>
