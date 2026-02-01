@@ -13,3 +13,8 @@ html, body {
   height: 100%;
   width: 100%;
 }
+
+/* Prevent double-tap zoom on buttons for mobile browsers */
+button {
+  touch-action: manipulation;
+}
