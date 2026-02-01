@@ -86,24 +86,25 @@ export class AppComponent implements OnInit {
       },
       tooltip: {
         callbacks: {
-          label: function(context) {
-            return 'Event #' + (context.dataIndex + 1);
+          title: function(context: any) {
+            const index = context[0].dataIndex;
+            return 'Event #' + (index + 1);
+          },
+          label: function(context: any): string {
+            return context.dataset.label;
           }
         }
       }
     },
     scales: {
-      y: {
+      x: {
+        stacked: true,
         display: false,
         beginAtZero: true,
-        max: 1
       },
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: 'Event Sequence'
-        }
+      y: {
+        stacked: true,
+        display: false
       }
     }
   };
@@ -259,28 +260,30 @@ export class AppComponent implements OnInit {
   }
 
   private updateLineChart(): void {
-    // Create a bar for each event, colored by topic
-    const labels: string[] = [];
+    // Create segments for each event in the timeline
     const backgroundColors: string[] = [];
     const borderColors: string[] = [];
     const data: number[] = [];
+    const labels: string[] = [];
 
     this.timeline.forEach((event, index) => {
       const topic = this.topics.find(t => t.id === event.topicId);
-      labels.push(topic?.name.substring(0, 1) || 'E'); // First letter of topic name
+      labels.push(topic?.name.substring(0, 1) || 'E');
       backgroundColors.push(topic?.color || '#999999');
       borderColors.push(topic?.color || '#999999');
-      data.push(1); // Each event is represented as 1
+      data.push(1); // Each segment is 1 unit
     });
 
     this.lineChartData.labels = labels;
     this.lineChartData.datasets = [
       {
-        label: 'Events',
+        label: 'Event Timeline',
         data: data,
         backgroundColor: backgroundColors,
         borderColor: borderColors,
-        borderWidth: 2
+        borderWidth: 1,
+        barPercentage: 1,
+        categoryPercentage: 1
       }
     ];
 
