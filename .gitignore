@@ -6,10 +6,8 @@
 /out-tsc
 /bazel-out
 
-# Keep docs folder for GitHub Pages
-!/docs
-# But ignore the browser subfolder (build artifact that gets moved to docs root)
-/docs/browser
+# Build output (GitHub Actions handles deployment)
+/docs
 
 # Node
 /node_modules
