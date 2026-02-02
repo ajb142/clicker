@@ -57,6 +57,7 @@ export class AppComponent implements OnInit {
   confirmModalTitle = '';
   confirmModalMessage = '';
   confirmModalCallback: (() => void) | null = null;
+  isDarkMode = false;
 
   pieChartData: ChartConfiguration<'pie'>['data'] = {
     labels: [],
@@ -74,7 +75,10 @@ export class AppComponent implements OnInit {
     plugins: {
       legend: {
         position: 'bottom',
-        reverse: true
+        reverse: true,
+        labels: {
+          color: this.getChartTextColor()
+        }
       }
     }
   };
@@ -120,6 +124,7 @@ export class AppComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.initializeTheme();
     this.loadFromStorage();
     if (this.topics.length === 0) {
       this.initializeDefaultTopics();
@@ -376,5 +381,42 @@ export class AppComponent implements OnInit {
       this.confirmModalCallback();
     }
     this.closeConfirmModal();
+  }
+
+  initializeTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      this.isDarkMode = savedTheme === 'dark';
+    } else {
+      // Auto-detect system preference
+      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    this.applyTheme();
+  }
+
+  toggleTheme(): void {
+    this.isDarkMode = !this.isDarkMode;
+    this.applyTheme();
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+  }
+
+  private applyTheme(): void {
+    document.documentElement.setAttribute('data-bs-theme', this.isDarkMode ? 'dark' : 'light');
+    this.updateChartColors();
+  }
+
+  private getChartTextColor(): string {
+    return this.isDarkMode ? '#dee2e6' : '#212529';
+  }
+
+  private updateChartColors(): void {
+    // Update pie chart legend color
+    if (this.pieChartOptions?.plugins?.legend?.labels) {
+      this.pieChartOptions.plugins.legend.labels.color = this.getChartTextColor();
+    }
+    
+    // Trigger chart updates
+    this.pieChartOptions = { ...this.pieChartOptions };
+    this.lineChartOptions = { ...this.lineChartOptions };
   }
 }
