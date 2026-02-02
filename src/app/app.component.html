@@ -55,28 +55,32 @@
       <!-- Charts Section -->
       <section class="mb-4">
         <h2 class="h5 mb-3">Pie Chart (Totals)</h2>
-        <div class="card">
-          <div class="card-body">
-            <canvas
-              baseChart
-              type="pie"
-              [data]="pieChartData"
-              [options]="pieChartOptions">
-            </canvas>
+        <div class="chart-container">
+          <div class="card">
+            <div class="card-body">
+              <canvas
+                baseChart
+                type="pie"
+                [data]="pieChartData"
+                [options]="pieChartOptions">
+              </canvas>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="mb-4">
         <h2 class="h5 mb-3">Timeline (Cumulative)</h2>
-        <div class="card">
-          <div class="card-body">
-            <canvas
-              baseChart
-              type="bar"
-              [data]="lineChartData"
-              [options]="lineChartOptions">
-            </canvas>
+        <div class="chart-container">
+          <div class="card">
+            <div class="card-body">
+              <canvas
+                baseChart
+                type="bar"
+                [data]="lineChartData"
+                [options]="lineChartOptions">
+              </canvas>
+            </div>
           </div>
         </div>
       </section>

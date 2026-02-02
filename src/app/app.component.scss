@@ -121,3 +121,13 @@ canvas {
     max-height: 300px;
   }
 }
+
+// Chart containers - constrain width on larger screens
+.chart-container {
+  max-width: 600px;
+  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+}
