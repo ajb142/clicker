@@ -53,6 +53,10 @@ export class AppComponent implements OnInit {
   capacityReachedAlert = false;
   colorIndex = 0;
   showAddTopicModal = false;
+  showConfirmModal = false;
+  confirmModalTitle = '';
+  confirmModalMessage = '';
+  confirmModalCallback: (() => void) | null = null;
 
   pieChartData: ChartConfiguration<'pie'>['data'] = {
     labels: [],
@@ -209,25 +213,33 @@ export class AppComponent implements OnInit {
   }
 
   clearData(): void {
-    if (confirm('Are you sure you want to clear all counts and timeline events?')) {
-      this.topics.forEach(topic => {
-        topic.count = 0;
-      });
-      this.timeline = [];
-      this.saveToStorage();
-      this.updateCharts();
-    }
+    this.openConfirmModal(
+      'Clear Data',
+      'Are you sure you want to clear all counts and timeline events?',
+      () => {
+        this.topics.forEach(topic => {
+          topic.count = 0;
+        });
+        this.timeline = [];
+        this.saveToStorage();
+        this.updateCharts();
+      }
+    );
   }
 
   resetTopics(): void {
-    if (confirm('Are you sure you want to reset all topics to Pass & Fail? This will also clear all data.')) {
-      this.topics = [];
-      this.timeline = [];
-      this.colorIndex = 0;
-      this.initializeDefaultTopics();
-      this.saveToStorage();
-      this.updateCharts();
-    }
+    this.openConfirmModal(
+      'Reset Topics',
+      'Are you sure you want to reset all topics to Pass & Fail? This will also clear all data.',
+      () => {
+        this.topics = [];
+        this.timeline = [];
+        this.colorIndex = 0;
+        this.initializeDefaultTopics();
+        this.saveToStorage();
+        this.updateCharts();
+      }
+    );
   }
 
   exportData(): void {
@@ -343,5 +355,26 @@ export class AppComponent implements OnInit {
     const b = parseInt(hex.substr(4, 2), 16);
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
     return brightness > 155 ? '#000000' : '#FFFFFF';
+  }
+
+  openConfirmModal(title: string, message: string, callback: () => void): void {
+    this.confirmModalTitle = title;
+    this.confirmModalMessage = message;
+    this.confirmModalCallback = callback;
+    this.showConfirmModal = true;
+  }
+
+  closeConfirmModal(): void {
+    this.showConfirmModal = false;
+    this.confirmModalTitle = '';
+    this.confirmModalMessage = '';
+    this.confirmModalCallback = null;
+  }
+
+  confirmAction(): void {
+    if (this.confirmModalCallback) {
+      this.confirmModalCallback();
+    }
+    this.closeConfirmModal();
   }
 }
